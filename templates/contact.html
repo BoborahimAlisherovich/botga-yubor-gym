@@ -1,7 +1,5 @@
-
 {% extends "base.html" %}
 {% load static %}
-
 {% block content %}
 
   <section class="contact_section ">
@@ -19,22 +17,10 @@
                 Contact Us
               </h2>
             </div>
-            <form action="{% url 'cantact-page' %}" method="POST">
+            <form id="contact-form" action="{% url 'cantact-page' %}" method="POST">
               {% csrf_token %}
               {{form.as_p}}
-              <!-- <div>
-                <input type="text" placeholder="Name" />
-              </div>
-              <div>
-                <input type="email" placeholder="Email" />
-              </div>
-              <div>
-                <input type="text" placeholder="Phone Number" />
-              </div>
-              <div>
-                <input type="text" class="message-box" placeholder="Message" />
-              </div> -->
-              <div class="d-flex ">
+              <div class="d-flex">
                 <button type="submit">
                   Send
                 </button>
@@ -46,48 +32,17 @@
     </div>
   </section>
 
-  <!-- end contact section -->
+  <!-- Success message will appear here -->
+  <div class="container mt-3" id="success-message" style="display: none; background-color: #5cb85c; color: #fff; padding: 10px;">
+    <p>Xabaringiz muvaffaqiyatli yuborildi 😇</p>
+  </div>
+  <!-- End success message -->
 
   <!-- info section -->
   <section class="info_section layout_padding2">
     <div class="container">
       <div class="info_items">
-        <a href="">
-          <div class="item ">
-            <div class="img-box box-1">
-              <img src="" alt="">
-            </div>
-            <div class="detail-box">
-              <p>
-                Location
-              </p>
-            </div>
-          </div>
-        </a>
-        <a href="">
-          <div class="item ">
-            <div class="img-box box-2">
-              <img src="" alt="">
-            </div>
-            <div class="detail-box">
-              <p>
-                +02 1234567890
-              </p>
-            </div>
-          </div>
-        </a>
-        <a href="">
-          <div class="item ">
-            <div class="img-box box-3">
-              <img src="" alt="">
-            </div>
-            <div class="detail-box">
-              <p>
-                demo@gmail.com
-              </p>
-            </div>
-          </div>
-        </a>
+        <!-- Your info items here -->
       </div>
     </div>
   </section>
@@ -95,4 +50,29 @@
   <!-- end info_section -->
 
 
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var contactForm = document.getElementById('contact-form');
+      var successMessage = document.getElementById('success-message');
+  
+      contactForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        // Perform any form validation here if needed
+  
+        // Assuming form submission is successful
+        contactForm.style.display = 'none'; // Hide the form
+        successMessage.style.display = 'block'; // Show the success message
+  
+        // Redirect to the home page after 3 seconds
+        setTimeout(function () {
+          window.location.href = "{% url 'home-page' %}"; // Replace 'home-page' with your actual home page URL
+        }, 3000); // 3000 milliseconds = 3 seconds
+      });
+    });
+  </script>
+  
+
+
 {% endblock content %}
+
