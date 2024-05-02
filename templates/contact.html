@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
@@ -12,29 +13,9 @@
         </div>
         <div class="col-lg-5 col-md-6">
           <div class="form_container pr-0 pr-lg-5 mr-0 mr-lg-2">
-            <div class="heading_container">
-              <h2>
-                Contact Us
-              </h2>
-            </div>
-            <form id="contact-form" action="{% url 'cantact-page' %}" method="POST">
-              {% csrf_token %}
-              {{form.as_p}}
-              <div class="d-flex">
-                <button type="submit">
-                  Send
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Success message will appear here -->
+            <!-- Success message will appear here -->
   <div class="container mt-3" id="success-message" style="display: none; background-color: #5cb85c; color: #fff; padding: 10px;">
-    <p>Xabaringiz muvaffaqiyatli yuborildi 😇</p>
+    <p>Xabaringiz bizning botimizga muvaffaqiyatli yuborildi 😇😇😇</p>
   </div>
   <!-- End success message -->
 
@@ -58,21 +39,52 @@
   
       contactForm.addEventListener('submit', function (event) {
         event.preventDefault();
-        // Perform any form validation here if needed
   
-        // Assuming form submission is successful
-        contactForm.style.display = 'none'; // Hide the form
-        successMessage.style.display = 'block'; // Show the success message
+        // Get the form data
+        var formData = new FormData(contactForm);
   
-        // Redirect to the home page after 3 seconds
-        setTimeout(function () {
-          window.location.href = "{% url 'home-page' %}"; // Replace 'home-page' with your actual home page URL
-        }, 3000); // 3000 milliseconds = 3 seconds
+        // Create an AJAX request
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', contactForm.getAttribute('action'), true);
+        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            // If the request was successful, hide the form and display the success message
+            contactForm.style.display = 'none';
+            successMessage.style.display = 'block';
+  
+            // Redirect after 3 seconds (3000 milliseconds)
+            setTimeout(function () {
+              window.location.href = "{% url 'home-page' %}";
+            }, 3000);
+          }
+        };
+        // Send the form data
+        xhr.send(formData);
       });
     });
   </script>
+            <div class="heading_container">
+              <h2>
+                Contact Us
+              </h2>
+            </div>
+            <form id="contact-form" action="{% url 'cantact-page' %}" method="POST">
+              {% csrf_token %}
+              {{form.as_p}}
+              <div class="d-flex">
+                <button type="submit">
+                  Send
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   
 
 
 {% endblock content %}
-
